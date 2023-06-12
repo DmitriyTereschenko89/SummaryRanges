@@ -11,20 +11,16 @@
 				int slow = 0;
 				for (int fast = 1; fast < n; ++fast)
 				{
-					if (nums[fast] - nums[fast - 1] > 1)
+					long num1 = nums[fast];
+					long num2 = nums[fast - 1];
+					if (num1 - num2 > 1)
 					{
-						if (fast - 1 == slow)
-						{
-							summaryRanges.Add($"{nums[slow]}");
-						}
-						else
-						{
-							summaryRanges.Add($"{nums[slow]}->{nums[fast]}");
-						}
+						summaryRanges.Add(fast - 1 == slow ? $"{nums[slow]}" : $"{nums[slow]}->{nums[fast - 1]}");
 						slow = fast;
 					}
 				}
-				return summaryRanges;
+				summaryRanges.Add(slow == n - 1 ? $"{nums[slow]}" : $"{nums[slow]}->{nums[n - 1]}");
+                return summaryRanges;
 			}
 		}
 		static void Main(string[] args)
@@ -32,6 +28,7 @@
 			RangesSummary rangesSummary = new();
             Console.WriteLine(string.Join(", ", rangesSummary.SummaryRanges(new int[] { 0, 1, 2, 4, 5, 7 })));
 			Console.WriteLine(string.Join(", ", rangesSummary.SummaryRanges(new int[] { 0, 2, 3, 4, 6, 8, 9 })));
-		}
+            Console.WriteLine(string.Join(", ", rangesSummary.SummaryRanges(new int[] { -2147483648, -2147483647, 2147483647 })));
+        }
 	}
 }
